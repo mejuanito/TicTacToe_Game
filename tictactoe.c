@@ -9,7 +9,7 @@
 
 int winner = 0;
 int loser = 0;
-
+int tie = 0;
 
 //this function prints the tictactoe board
 void printBoard(char board[row][col])
@@ -154,8 +154,6 @@ void checkWin(char board[row][col])
         //  *   *   *
         win = 1;
     }
-
-
     switch (win)
     {
     case 1:
@@ -163,7 +161,9 @@ void checkWin(char board[row][col])
         //I need to fix this
         winner = 1;
         break;
-    
+    case 2:
+        printf("It's a tie!!\n");
+        break;
     default:
         break;
     }
@@ -240,7 +240,24 @@ void checkLose(char board[row][col])
         break;
     }
 }
-
+void checkTie(char board[row][col])
+{
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < col; j++)
+        {
+            if (board[i][j] == ' ')
+            {
+                return;
+            }
+        }
+    }
+    if (winner == 0 && loser == 0)
+    {
+        printf("It's a tie!\n");
+        tie = 1;
+    }
+}
 //loops the game and sets the board
 int main ()
 {
@@ -270,16 +287,17 @@ int main ()
         {
             makeMove(board);
             checkWin(board);
-            checkLose(board);
+            if (winner == 1) break;
+
+            checkTie(board);
+            if (tie == 1) break;
+
             computerMove(board);
-            if (winner == 1)
-            {
-                break;
-            }
-            if (loser == 1)
-            {
-                break;
-            }
+            checkLose(board);
+            if (loser == 1) break;
+
+            checkTie(board);
+            if (tie == 1) break;
         }
         break;
 
